@@ -27,13 +27,13 @@ class FormScreen extends StatelessWidget {
           final max = props['maxLength'] ?? 1000;
           if (value == null || value.toString().trim().length < min) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('${props['label']} {$AppStrings.leastNumberWarning} $min {$AppStrings.characters}')),
+              SnackBar(content: Text('${props['label']} ${AppStrings.leastNumberWarning} $min ${AppStrings.characters}')),
             );
             return false;
           }
           if (value.toString().length > max) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('${props['label']} {$AppStrings.lessNumberWarning} $max {$AppStrings.characters}')),
+              SnackBar(content: Text('${props['label']} ${AppStrings.lessNumberWarning} $max ${AppStrings.characters}')),
             );
             return false;
           }
