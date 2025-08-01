@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:dynamic_form_app/core/utils/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+
 import '../../../data/models/form_model.dart';
 import '../providers/form_provider.dart';
 
@@ -19,7 +21,7 @@ class FieldWidgets extends StatelessWidget {
     final fieldKey = field.key;
 
     switch (field.id) {
-      case 1: // TextField
+      case 1:
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 15),
           child: Column(
@@ -49,7 +51,7 @@ class FieldWidgets extends StatelessWidget {
           ),
         );
 
-      case 2: // Dropdown / Checkbox List
+      case 2:
         final List items = jsonDecode(props['listItems']);
         final isMulti = props['multiSelect'] ?? false;
 
@@ -107,7 +109,7 @@ class FieldWidgets extends StatelessWidget {
             ),
           );
         }
-      case 3: // Yes/No/NA
+      case 3:
         final value = provider.formResponses[fieldKey];
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 15),
@@ -123,7 +125,7 @@ class FieldWidgets extends StatelessWidget {
             ],
           ),
         );
-      case 4: // Image Picker
+      case 4:
         final picked = provider.formResponses[fieldKey];
         final isMulti = props['multiImage'] == true;
 
