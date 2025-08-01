@@ -78,6 +78,10 @@ flutter:
 ### Dynamic Form List
 ![dynamic](https://github.com/kazihabiba201/dynamic_form_app/blob/master/assets/image/dynamic_form_list.jpg)
 
+## Camera/Gallery and Multiple Images
+![camera](https://github.com/kazihabiba201/dynamic_form_app/blob/master/assets/image/camera.jpg)
+![form](https://github.com/kazihabiba201/dynamic_form_app/blob/master/assets/image/form.jpg)
+
 ### Custom Feedback Form
 ![custom](https://github.com/kazihabiba201/dynamic_form_app/blob/master/assets/image/customer_feedback_form1.jpg)
 ![feedback](https://github.com/kazihabiba201/dynamic_form_app/blob/master/assets/image/custom_feedback_form2.jpg)
