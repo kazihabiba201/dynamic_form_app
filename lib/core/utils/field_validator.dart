@@ -15,16 +15,34 @@ class FieldValidator {
         final value = responses[key];
 
         if (field.id == 1) {
-          // Text validation
+          // Text field
           final min = props['minLength'] ?? 0;
           final max = props['maxLength'] ?? 1000;
-          if (value == null || value.toString().trim().length < min) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${props['label']} ${AppStrings.leastNumberWarning} $min ${AppStrings.characters}')));
-            return false;
-          }
-          if (value.toString().length > max) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${props['label']} ${AppStrings.lessNumberWarning} $max ${AppStrings.characters}')));
-            return false;
+
+          // Check if this is the allergy detail field (text_3)
+          if (key == 'text_3') {
+            final allergyAnswer = responses['yesno_1'];
+            final isRequired = allergyAnswer == 'Yes';
+
+            if (isRequired && (value == null || value.toString().trim().isEmpty)) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text(AppStrings.pleaseSpecifyYourAllergyWarning)),
+              );
+              return false;
+            }
+          } else {
+            if (value == null || value.toString().trim().length < min) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('${props['label']} ${AppStrings.leastNumberWarning} $min ${AppStrings.characters}')),
+              );
+              return false;
+            }
+            if (value.toString().length > max) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('${props['label']} ${AppStrings.mostNumberWarning} $max ${AppStrings.characters}')),
+              );
+              return false;
+            }
           }
         } else if (field.id == 2 && props['multiSelect'] == false) {
           if (value == null || value.toString().isEmpty) return false;
