@@ -31,19 +31,22 @@ class FieldValidator {
               return false;
             }
           } else {
-            if (value == null || value.toString().trim().length < min) {
+            final input = value?.toString().trim() ?? '';
+
+
+            if (min > 0 && input.length < min) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('${props['label']} ${AppStrings.leastNumberWarning} $min ${AppStrings.characters}')),
               );
               return false;
             }
-            if (value.toString().length > max) {
+
+            if (input.length > max) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('${props['label']} ${AppStrings.mostNumberWarning} $max ${AppStrings.characters}')),
               );
               return false;
-            }
-          }
+            }}
         } else if (field.id == 2 && props['multiSelect'] == false) {
           if (value == null || value.toString().isEmpty) return false;
         } else if (field.id == 3) {
