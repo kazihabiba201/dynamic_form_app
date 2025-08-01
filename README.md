@@ -5,7 +5,7 @@ A Flutter application for surveyors that renders dynamic forms based on configur
 ---
 
 ## App Apk Link
-You can download the APK file [here](https://drive.google.com/file/d/1PW1-Hu__hBbd_IOioV9lpvpJusnAHp6_/view?usp=sharing).
+You can download the APK file [here](https://drive.google.com/file/d/1lxS01jA8IwLL-v7EFIWzlvKroGscbvHH/view?usp=sharing).
 
 ##  Features
 
@@ -77,6 +77,10 @@ flutter:
 ## App Screen
 ### Dynamic Form List
 ![dynamic](https://github.com/kazihabiba201/dynamic_form_app/blob/master/assets/image/dynamic_form_list.jpg)
+
+## Camera/Gallery and Multiple Images
+![camera](https://github.com/kazihabiba201/dynamic_form_app/blob/master/assets/image/camera.jpg)
+![form](https://github.com/kazihabiba201/dynamic_form_app/blob/master/assets/image/form.jpg)
 
 ### Custom Feedback Form
 ![custom](https://github.com/kazihabiba201/dynamic_form_app/blob/master/assets/image/customer_feedback_form1.jpg)
