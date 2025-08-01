@@ -14,13 +14,13 @@ class FieldValidator {
         final key = field.key;
         final value = responses[key];
 
-        if (field.id == 1) {
+        if (field.id == 1 ) {
           // Text field
           final min = props['minLength'] ?? 0;
           final max = props['maxLength'] ?? 1000;
 
-          // Check if this is the allergy detail field (text_3)
-          if (key == 'text_3') {
+          // Check if this is the allergy detail field (text_3 and Form ID 3)
+          if (key == 'text_3' && form.id == 3) {
             final allergyAnswer = responses['yesno_1'];
             final isRequired = allergyAnswer == 'Yes';
 
