@@ -11,6 +11,7 @@ class AppStrings {
   static const String mostNumberWarning = 'must be at most';
   static const String cameraBtn = 'Camera';
   static const String galleryBtn = 'Gallery';
+  static const String showToastDoNotAllowMoreThanFiveImage = 'Maximum 5 images allowed.';
   static const String pleaseSpecifyYourAllergyWarning = 'Please specify your allergy details.';
   static const String characters = 'characters.';
 
