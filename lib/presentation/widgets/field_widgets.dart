@@ -138,7 +138,7 @@ class FieldWidgets extends StatelessWidget {
               const SizedBox(height: 8),
 
               ElevatedButton.icon(
-                icon: const Icon(Icons.camera_alt, color: Colors.black),
+                icon: const Icon(Icons.add_a_photo, color: Colors.black),
                 label: Text(isMulti ? AppStrings.pickImage : AppStrings.pickImage, style: const TextStyle(color: Colors.black)),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
@@ -149,18 +149,52 @@ class FieldWidgets extends StatelessWidget {
                 onPressed: () async {
                   final ImagePicker picker = ImagePicker();
 
-                  if (isMulti) {
-                    final List<XFile> images = await picker.pickMultiImage();
-                    if (images.isNotEmpty) {
-                      final paths = images.map((img) => img.path).toList();
-                      provider.updateResponse(fieldKey, paths);
-                    }
-                  } else {
-                    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-                    if (image != null) {
-                      provider.updateResponse(fieldKey, image.path);
-                    }
-                  }
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (ctx) => SafeArea(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ListTile(
+                            leading: const Icon(Icons.camera_alt),
+                            title: const Text(AppStrings.cameraBtn),
+                            onTap: () async {
+                              Navigator.pop(ctx);
+                              final XFile? image = await picker.pickImage(source: ImageSource.camera);
+                              if (image != null) {
+                                if (isMulti) {
+                                  List<String> paths = List<String>.from(picked ?? []);
+                                  paths.add(image.path);
+                                  provider.updateResponse(fieldKey, paths);
+                                } else {
+                                  provider.updateResponse(fieldKey, image.path);
+                                }
+                              }
+                            },
+                          ),
+                          ListTile(
+                            leading: const Icon(Icons.photo_library),
+                            title: const Text(AppStrings.galleryBtn),
+                            onTap: () async {
+                              Navigator.pop(ctx);
+                              if (isMulti) {
+                                final List<XFile> images = await picker.pickMultiImage();
+                                if (images.isNotEmpty) {
+                                  final paths = images.map((img) => img.path).toList();
+                                  provider.updateResponse(fieldKey, paths);
+                                }
+                              } else {
+                                final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+                                if (image != null) {
+                                  provider.updateResponse(fieldKey, image.path);
+                                }
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
                 },
               ),
 
