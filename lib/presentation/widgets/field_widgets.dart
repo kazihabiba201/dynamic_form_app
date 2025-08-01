@@ -139,7 +139,7 @@ class FieldWidgets extends StatelessWidget {
 
               ElevatedButton.icon(
                 icon: const Icon(Icons.add_a_photo, color: Colors.black),
-                label: Text(isMulti ? AppStrings.pickImage : AppStrings.pickImage, style: const TextStyle(color: Colors.black)),
+                label: Text(AppStrings.pickImage, style: const TextStyle(color: Colors.black)),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   side: const BorderSide(color: Colors.green, width: 2),
@@ -148,6 +148,13 @@ class FieldWidgets extends StatelessWidget {
                 ),
                 onPressed: () async {
                   final ImagePicker picker = ImagePicker();
+                  final List<String> currentImages = List<String>.from(picked ?? []);
+                  final int remaining = 5 - currentImages.length;
+
+                  if (remaining == 0) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text(AppStrings.showToastDoNotAllowMoreThanFiveImage)));
+                    return;
+                  }
 
                   showModalBottomSheet(
                     context: context,
@@ -162,13 +169,13 @@ class FieldWidgets extends StatelessWidget {
                               Navigator.pop(ctx);
                               final XFile? image = await picker.pickImage(source: ImageSource.camera);
                               if (image != null) {
-                                if (isMulti) {
-                                  List<String> paths = List<String>.from(picked ?? []);
-                                  paths.add(image.path);
-                                  provider.updateResponse(fieldKey, paths);
-                                } else {
-                                  provider.updateResponse(fieldKey, image.path);
+                                final paths = List<String>.from(picked ?? []);
+                                if (paths.length >= 5) {
+                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text(AppStrings.showToastDoNotAllowMoreThanFiveImage)));
+                                  return;
                                 }
+                                paths.add(image.path);
+                                provider.updateResponse(fieldKey, paths);
                               }
                             },
                           ),
@@ -177,17 +184,18 @@ class FieldWidgets extends StatelessWidget {
                             title: const Text(AppStrings.galleryBtn),
                             onTap: () async {
                               Navigator.pop(ctx);
-                              if (isMulti) {
-                                final List<XFile> images = await picker.pickMultiImage();
-                                if (images.isNotEmpty) {
-                                  final paths = images.map((img) => img.path).toList();
-                                  provider.updateResponse(fieldKey, paths);
+                              final List<XFile> images = await picker.pickMultiImage();
+                              if (images.isNotEmpty) {
+                                final paths = List<String>.from(picked ?? []);
+                                final int remainingSlots = 5 - paths.length;
+                                if (remainingSlots <= 0) {
+                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text(AppStrings.showToastDoNotAllowMoreThanFiveImage)));
+                                  return;
                                 }
-                              } else {
-                                final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-                                if (image != null) {
-                                  provider.updateResponse(fieldKey, image.path);
-                                }
+
+                                final newImages = images.take(remainingSlots).map((img) => img.path).toList();
+                                paths.addAll(newImages);
+                                provider.updateResponse(fieldKey, paths);
                               }
                             },
                           ),
@@ -207,9 +215,28 @@ class FieldWidgets extends StatelessWidget {
                         runSpacing: 8,
                         children: List<Widget>.from(
                           (picked as List).map(
-                            (imgPath) => ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.file(File(imgPath), height: 100, width: 100, fit: BoxFit.cover),
+                            (imgPath) => Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.file(File(imgPath), height: 100, width: 100, fit: BoxFit.cover),
+                                ),
+                                Positioned(
+                                  right: 0,
+                                  top: 0,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      List<String> updated = List<String>.from(picked)..remove(imgPath);
+                                      provider.updateResponse(fieldKey, updated);
+                                    },
+                                    child: const CircleAvatar(
+                                      radius: 10,
+                                      backgroundColor: Colors.red,
+                                      child: Icon(Icons.close, size: 16, color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
