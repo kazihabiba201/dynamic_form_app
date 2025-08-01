@@ -9,6 +9,6 @@ final GoRouter appRouter = GoRouter(
   routes: [
     GoRoute(path: RoutePaths.formList, name: RouteName.formList, builder: (context, state) => const FormListScreen()),
     GoRoute(path: RoutePaths.fORM, name: RouteName.fORM, builder: (context, state) => const FormScreen()),
-    GoRoute(path: RoutePaths.formSubmission, name: RouteName.formSubmission, builder: (context, state) => const SubmissionViewPage()),
+    GoRoute(path: RoutePaths.formSubmission, name: RouteName.formSubmission, builder: (context, state) => const SubmissionViewScreen()),
   ],
 );
