@@ -8,6 +8,8 @@ class AppStrings {
   static const String submitBtn = 'Submit';
   static const String leastNumberWarning = 'must be at least';
   static const String lessNumberWarning = 'must be less than';
+  static const String mostNumberWarning = 'must be at most';
+  static const String pleaseSpecifyYourAllergyWarning = 'Please specify your allergy details.';
   static const String characters = 'characters.';
 
   //Toast
